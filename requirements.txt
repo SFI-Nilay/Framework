@@ -1,0 +1,12 @@
+streamlit
+openai
+pandas
+openpyxl
+pdfplumber
+pypdf
+scikit-learn
+python-dotenv
+llmwhisperer-client
+reportlab
+tiktoken
+xlsxwriter
