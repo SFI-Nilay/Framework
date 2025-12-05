@@ -1,0 +1,45 @@
+[
+  {
+    "id": "framework_extraction",
+    "instruction": "You are a sustainability finance data extraction expert. From the given PDF text of a sustainability or bond framework, extract the following details. Follow the schema exactly. If a field is missing or unclear, return 'N/A' (do not leave blank or make assumptions). Do not infer or fabricate data beyond what is explicitly stated.\n\nFields to extract:\n1. Issuer – The company or organization that issued the framework.\n2. Framework Name – The official title or name of the framework (often appears on the cover or title page).\n3. Alignment – Any sustainability, green, or social bond standards referenced (e.g., ICMA, EU Taxonomy, UN SDGs, GBP, SBP).\n4. Year – The publication or creation year (commonly found on the first or last page).\n5. Framework Source – The source or reference for the framework (e.g., company website, report section, governing body).\n6. External Verification – Text found under or near a heading like 'External Verification', 'Review', or 'Assessment'.\n7. Impact Reporting – Information under the heading 'Impact Reporting' (or similar wording like 'Impact Measurement and Reporting').\n8. Exclusion Criteria – Sectors, activities, or project types excluded from financing (e.g., coal, nuclear, weapons).\n9. EU Taxonomy Alignment – Whether the framework explicitly mentions EU Taxonomy alignment or not.\n\nAlways return a syntactically valid JSON object strictly following the schema below.",
+    "json_schema": {
+      "Issuer": "",
+      "Framework Name": "",
+      "Alignment": "",
+      "Year": "",
+      "Framework Source": "",
+      "External Verification": "",
+      "Impact Reporting": "",
+      "Exclusion Criteria": "",
+      "EU Taxonomy Alignment": ""
+    },
+    "run_for": "framework",
+    "additional_features": {
+      "Expert_Role_Framing": "Positions the LLM as a sustainability finance expert to enhance domain accuracy and reduce hallucination.",
+      "Strict_Schema_Compliance": "Forces exact adherence to the provided JSON keys, ensuring structured and machine-readable output.",
+      "Error_Handling": "Uses 'N/A' for all missing or ambiguous fields instead of blanks or nulls to maintain uniformity.",
+      "Context_Awareness": "Clarifies that all fields must be extracted only from the provided text, not inferred or assumed.",
+      "Date_Anchoring": "Reminds the model to look for year indicators near the document title or footer instead of guessing.",
+      "Validation_Rule": "Enforces syntactically valid JSON output with no commentary or markdown wrapping."
+    }
+  },
+  {
+    "id": "spo_extraction",
+    "instruction": "You are a sustainability data extraction expert. From the given Second Party Opinion (SPO) document, extract the following information accurately. If any field is missing, return 'N/A' instead of leaving it blank. Do not infer, summarize beyond the specified word limit, or fabricate any values. Return only a JSON object strictly following the schema.\n\nFields to extract:\n1. Summary – A concise summary of the entire document in exactly 50 words.\n2. SPO Date – Extract the publication or opinion date from the first or cover page. Look for patterns like 'dd Month yyyy', 'Month yyyy', or 'yyyy'. Convert the result into 'dd/mm/yyyy' format (e.g., '5th September 2008' → '05/09/2008'). If only month and year are available, use 'mm/yyyy'.\n3. SPO Provider – The organization that issued the SPO (e.g., Sustainalytics, ISS ESG, Moody’s, CICERO, DNV). If multiple names appear, choose the one explicitly labeled as 'provider' or appearing most prominently (e.g., logo or header).",
+    "json_schema": {
+      "Summary": "",
+      "SPO Date": "",
+      "SPO Provider": ""
+    },
+    "run_for": "spo",
+    "additional_features": {
+      "Expert_Role_Framing": "Positions the LLM as a sustainability opinion analysis expert to improve document structure recognition.",
+      "Date_Normalization": "Instructs the LLM to identify diverse date formats and convert them consistently to 'dd/mm/yyyy' or 'mm/yyyy'.",
+      "Word_Limit_Enforcement": "Explicitly caps the summary at 50 words, improving consistency across extractions.",
+      "Strict_Data_Origin": "Ensures all values come directly from text and not from inference or pre-existing knowledge.",
+      "Error_Handling": "Uses 'N/A' to represent missing fields, ensuring downstream data consistency.",
+      "Schema_Locking": "Prevents modification or reordering of JSON keys, guaranteeing machine compatibility.",
+      "Output_Validation": "Reinforces that the output must be valid JSON with no extra commentary, markdown, or natural language."
+    }
+  }
+]

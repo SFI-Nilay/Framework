@@ -1,0 +1,83 @@
+{
+  "task_description": "You are an expert in sustainable finance data extraction. Your task is to extract structured and hierarchical information from a combined document containing a Bond Framework and its Second Party Opinion (SPO). The goal is to accurately identify and extract all relevant data from the 'Use of Proceeds' section and associated SPO commentary, returning it in a structured JSON format as specified below.",
+  
+  "steps": [
+    "1. Locate the 'Use of Proceeds' section within the provided context, which belongs to the bond framework portion of the document.",
+    "2. Identify the table or structured list under this section and extract the first column as the 'Use of Proceeds' categories.",
+    "3. For each 'Use of Proceeds' category, extract all associated eligibility criteria from the same table or list. Each row represents one eligibility criterion.",
+    "4. For each eligibility criterion, search the Second Party Opinion (SPO) section of the document to find the closest relevant commentary or evaluative statement. This must be the text most directly referencing the same activity or eligibility description.",
+    "5. Extract the relevant SPO text verbatim, exactly as it appears in the SPO section, and record it under 'SPO_Evaluation'. Do not summarize, paraphrase, or simplify this text into sentiment or label-based statements (e.g., 'Positive' or 'Aligned').",
+    "6. If EU Taxonomy-related information is present, extract and record the following details for each eligibility criterion: 'EU_Taxonomy_Alignment', 'DNSH' (Do No Significant Harm), 'Minimum_Safeguards', 'NACE_Code', and 'EU_Taxonomy_Economic_Activity'. If any are missing, mark them as 'Not Reported'.",
+    "7. Identify and list all Sustainable Development Goals (SDGs) associated with each 'Use of Proceeds' category. SDGs can be listed as numbers (e.g., '7', '13') or as descriptive text (e.g., 'Affordable and Clean Energy'). Always return SDGs as a list of strings.",
+    "8. Ensure all text fields are extracted exactly as written in the source and maintain the correct hierarchy: Use of Proceeds → Eligibility Criteria → SPO & EU Taxonomy details.",
+    "9. If multiple SPO statements appear relevant, choose the one that most directly evaluates the eligibility criterion.",
+    "10. Validate the final output to ensure it is syntactically valid JSON following the provided schema, with no extra commentary or text outside the JSON."
+  ],
+
+  "output_format_description": "The model must output the extracted information in a structured hierarchical JSON format, grouping eligibility criteria under each 'Use of Proceeds' category, along with associated SDGs, SPO commentary, and EU Taxonomy details. The JSON must be syntactically valid and follow the provided schema exactly.",
+
+  "output_json_structure": {
+    "Use_of_Proceeds": [
+      {
+        "Name": "<string: name of the use of proceeds category>",
+        "SDGs": [
+          "<string: SDG number or description>",
+          "<string: optional additional SDG>"
+        ],
+        "Eligibility_Criteria": [
+          {
+            "Description": "<string: eligibility criterion description>",
+            "SPO_Evaluation": "<string: exact text or commentary from the SPO section>",
+            "EU_Taxonomy_Alignment": "<string: report status or alignment>",
+            "DNSH": "<string: do no significant harm status>",
+            "Minimum_Safeguards": "<string: report status>",
+            "NACE_Code": "<string: NACE code if reported>",
+            "EU_Taxonomy_Economic_Activity": "<string: economic activity if reported>"
+          }
+        ]
+      }
+    ]
+  },
+
+  "notes": [
+    "All fields must be filled with the exact wording from the document wherever available. Do not paraphrase or summarize.",
+    "If a field is not mentioned, return 'Not Reported'.",
+    "Ensure 'SPO_Evaluation' is extracted verbatim from the SPO section and not reinterpreted.",
+    "Always return SDGs as a list, even if only one applies.",
+    "Maintain strict JSON structure with no additional commentary or markdown formatting.",
+    "If multiple Use of Proceeds categories exist, include all within the 'Use_of_Proceeds' list.",
+    "If SDGs or EU Taxonomy details are listed collectively (e.g., at the section level), apply them to all relevant eligibility criteria within that section.",
+    "If disambiguation is required, select the SPO commentary most directly tied to the eligibility criterion.",
+    "Output must be syntactically valid JSON and adhere exactly to the defined schema."
+  ],
+
+  "example_output": {
+    "Use_of_Proceeds": [
+      {
+        "Name": "Water Resource Protection",
+        "SDGs": ["6", "13"],
+        "Eligibility_Criteria": [
+          {
+            "Description": "Investments aimed at reducing at least 20% of water losses through installation of pressure and flow rate monitoring systems.",
+            "SPO_Evaluation": "ISS ESG confirms alignment with sustainable water management practices. The investment is expected to significantly reduce water wastage and improve local water efficiency. No major social or environmental risks were identified.",
+            "EU_Taxonomy_Alignment": "Not Reported",
+            "DNSH": "Not Reported",
+            "Minimum_Safeguards": "Not Reported",
+            "NACE_Code": "E36.00",
+            "EU_Taxonomy_Economic_Activity": "Water collection, treatment and supply"
+          }
+        ]
+      }
+    ]
+  },
+
+  "additional_features": {
+    "Expert_Role_Framing": "Defines the model as an expert in sustainable finance data extraction for higher contextual accuracy.",
+    "Input_Format_Specification": "Clarifies that both the Framework and SPO text will be provided together as plain text.",
+    "Validation_Constraints": "Enforces strict JSON output structure and schema adherence.",
+    "Disambiguation_Rules": "Instructs the model to select the SPO commentary most directly tied to each eligibility criterion.",
+    "Exact_Text_Extraction": "Reinforces that verbatim extraction must be used for all document-based content.",
+    "Reasoning_Flow": "Adds a logical extraction flow — locate, map, verify, and validate.",
+    "Schema_Locking": "Prevents structure drift by ensuring every output key strictly matches the provided schema."
+  }
+}

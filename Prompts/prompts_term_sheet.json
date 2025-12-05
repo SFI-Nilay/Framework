@@ -1,0 +1,28 @@
+[
+  {
+    "id": "termsheet_extraction",
+    "instruction": "Extract the following details from the Term Sheet PDF. If a field is not explicitly mentioned, return an empty string.",
+    "json_schema": {
+      "ISIN": "",
+      "Bond Type": "",
+      "Issuer": "",
+      "Bond Size": "",
+      "Currency": "",
+      "Coupon": "",
+      "Issuance Date": "",
+      "Maturity Date": "",
+      "Exchange Listing": "",
+      "Paying Agent": "",
+      "Moody's": "",
+      "S&P": "",
+      "Fitch": "",
+      "Status of Notes": "",
+      "Method of Distribution": "",
+      "Syndicate": "",
+      "Source": "",
+      "Comment": "",
+      "Date": ""
+    },
+    "run_for": "termsheet"
+  }
+]
