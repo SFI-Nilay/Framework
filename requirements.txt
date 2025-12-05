@@ -10,3 +10,6 @@ llmwhisperer-client
 reportlab
 tiktoken
 xlsxwriter
+
+groq
+google-genai
